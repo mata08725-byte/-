@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учебный центр «Строительный Двор» — Дистанционное обучение</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ====== НАВИГАЦИЯ ====== -->
+<nav class="navbar" id="navbar" style="display: none;">
+    <div class="navbar__container">
+        <a href="#" class="navbar__logo" data-route="catalog">
+            <img src="logo.jfif" alt="Логотип" class="navbar__logo-img">
+            <span class="navbar__logo-text">Строительный Двор</span>
+        </a>
+        <div class="navbar__menu" id="navMenu">
+            <a href="#" class="navbar__link active" data-route="catalog">Каталог</a>
+            <a href="#" class="navbar__link" data-route="admin">Админ-панель</a>
+            <a href="#" class="navbar__link navbar__link--icon" data-route="profile" title="Профиль">
+                <svg class="navbar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </a>
+            <button class="navbar__logout" id="logoutBtn">Выйти</button>
+        </div>
+        <button class="navbar__burger" id="burgerBtn">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
+<main class="main">
+
+    <!-- Страница авторизации -->
+    <section class="page page--auth" id="authPage">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-card__header">
+                    <img src="logo.jfif" alt="Логотип" class="auth-card__logo">
+                    <h1 class="auth-card__title">Строительный Двор</h1>
+                    <p class="auth-card__subtitle">Учебный центр · Дистанционное обучение</p>
+                </div>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Вход</button>
+                    <button class="auth-tab" data-tab="register">Регистрация</button>
+                </div>
+                <form class="auth-form auth-form--login" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail" class="form-label">Электронная почта</label>
+                        <input type="email" id="loginEmail" class="form-input" placeholder="example@mail.ru" value="2@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword" class="form-label">Пароль</label>
+                        <input type="password" id="loginPassword" class="form-input" placeholder="Введите пароль" value="admin123" required>
+                    </div>
+                    <div class="auth-error" id="loginError" style="display: none;"></div>
+                    <button type="submit" class="btn btn--primary btn--full">Войти</button>
+                </form>
+                <form class="auth-form auth-form--register" id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="registerName" class="form-label">Имя</label>
+                        <input type="text" id="registerName" class="form-input" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail" class="form-label">Электронная почта</label>
+                        <input type="email" id="registerEmail" class="form-input" placeholder="example@mail.ru" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword" class="form-label">Пароль</label>
+                        <input type="password" id="registerPassword" class="form-input" placeholder="Минимум 6 символов" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPasswordConfirm" class="form-label">Подтверждение пароля</label>
+                        <input type="password" id="registerPasswordConfirm" class="form-input" placeholder="Повторите пароль" required>
+                    </div>
+                    <div class="auth-error" id="registerError" style="display: none;"></div>
+                    <button type="submit" class="btn btn--primary btn--full">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница каталога -->
+    <section class="page page--catalog" id="catalogPage" style="display: none;">
+        <div class="container">
+            <header class="page-header">
+                <h1 class="page-title">Каталог курсов</h1>
+                <p class="page-description">Выберите курс для начала обучения</p>
+            </header>
+            <div class="courses-grid" id="coursesGrid"></div>
+        </div>
+    </section>
+
+    <!-- Страница курса -->
+    <section class="page page--course" id="coursePage" style="display: none;">
+        <div class="course-layout">
+            <aside class="course-sidebar">
+                <button class="course-sidebar__back" id="courseBackBtn">← Назад в каталог</button>
+                <h2 class="course-sidebar__title" id="courseTitle">Название курса</h2>
+                <div class="course-progress">
+                    <div class="course-progress__bar">
+                        <div class="course-progress__fill" id="courseProgressFill"></div>
+                    </div>
+                    <span class="course-progress__text" id="courseProgressText">0%</span>
+                </div>
+                <div class="course-timeline" id="courseTimeline"></div>
+            </aside>
+            <div class="course-content">
+                <div class="course-content__inner" id="courseContent"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Страница профиля -->
+    <section class="page page--profile" id="profilePage" style="display: none;">
+        <div class="container">
+            <header class="page-header">
+                <h1 class="page-title">Мой профиль</h1>
+            </header>
+            <div class="profile-layout">
+                <div class="profile-header-card">
+                    <div class="profile-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="profile-header-info">
+                        <h2 class="profile-header-name" id="profileName">Пользователь</h2>
+                        <span class="profile-role-badge" id="profileRole">Слушатель</span>
+                    </div>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <h2 class="profile-card__title">Личные данные</h2>
+                        <div class="profile-info">
+                            <div class="profile-info__row">
+                                <span class="profile-info__label">
+                                    <svg class="profile-info__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    Имя
+                                </span>
+                                <span class="profile-info__value" id="profileNameField">Пользователь</span>
+                            </div>
+                            <div class="profile-info__row">
+                                <span class="profile-info__label">
+                                    <svg class="profile-info__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>
+                                    Email
+                                </span>
+                                <span class="profile-info__value" id="profileEmailField">user@example.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <h2 class="profile-card__title">Прогресс обучения</h2>
+                        <div class="profile-courses" id="profileCoursesList">
+                            <p class="empty-state__text">Курсы ещё не начаты</p>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <h2 class="profile-card__title">Результаты тестов</h2>
+                        <div class="profile-results" id="profileResultsList">
+                            <p class="empty-state__text">Тесты ещё не пройдены</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Административная панель -->
+    <section class="page page--admin" id="adminPage" style="display: none;">
+        <div class="admin-container">
+            <!-- Верхняя панель админки -->
+            <div class="admin-topbar">
+                <div class="admin-topbar__left">
+                    <h1 class="admin-topbar__title">Панель управления</h1>
+                    <p class="admin-topbar__subtitle">Учебный центр «Строительный Двор»</p>
+                </div>
+                <div class="admin-topbar__actions">
+                    <button class="btn btn--primary btn--sm" id="adminAddCourseBtn">
+                        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Новый курс
+                    </button>
+                </div>
+            </div>
+
+            <!-- Статистика -->
+            <div class="admin-stats-grid" id="adminStatsGrid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-card__icon admin-stat-card__icon--courses">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                    </div>
+                    <div class="admin-stat-card__info">
+                        <span class="admin-stat-card__value" id="statCourses">0</span>
+                        <span class="admin-stat-card__label">Курсов</span>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-card__icon admin-stat-card__icon--users">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    </div>
+                    <div class="admin-stat-card__info">
+                        <span class="admin-stat-card__value" id="statUsers">0</span>
+                        <span class="admin-stat-card__label">Пользователей</span>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-card__icon admin-stat-card__icon--progress">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
+                    <div class="admin-stat-card__info">
+                        <span class="admin-stat-card__value" id="statProgress">0%</span>
+                        <span class="admin-stat-card__label">Средний прогресс</span>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-card__icon admin-stat-card__icon--tests">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                    </div>
+                    <div class="admin-stat-card__info">
+                        <span class="admin-stat-card__value" id="statTests">0</span>
+                        <span class="admin-stat-card__label">Сдано тестов</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основной контент админки -->
+            <div class="admin-main">
+                <!-- Табы -->
+                <div class="admin-tabs-bar" id="adminTabsBar">
+                    <button class="admin-tabs-bar__tab active" data-admin-tab="courses">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                        Курсы
+                    </button>
+                    <button class="admin-tabs-bar__tab" data-admin-tab="users">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        Пользователи
+                    </button>
+                    <button class="admin-tabs-bar__tab" data-admin-tab="results">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                        Результаты
+                    </button>
+                </div>
+
+                <!-- Контент табов -->
+                <div class="admin-content-area" id="adminContentArea">
+                    <!-- Заполняется через JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ====== МОДАЛЬНОЕ ОКНО ====== -->
+<div class="modal" id="modal">
+    <div class="modal__overlay" id="modalOverlay"></div>
+    <div class="modal__content" id="modalContent">
+        <button class="modal__close" id="modalClose">✕</button>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<!-- ====== КНОПКА НАВЕРХ ====== -->
+<button class="scroll-top" id="scrollTopBtn" title="Наверх">↑</button>
+
+<!-- ====== УВЕДОМЛЕНИЯ ====== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
